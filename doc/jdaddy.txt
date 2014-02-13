@@ -1,0 +1,36 @@
+*jdaddy.txt*  JSON manipulation and pretty printing
+
+Author:  Tim Pope <http://tpo.pe/>
+Repo:    https://github.com/tpope/vim-jdaddy
+License: Same terms as Vim itself (see |license|)
+
+USAGE                                           *jdaddy*
+
+                                                *ij*
+ij                      Text object for innermost JSON number, string, array,
+                        object, or keyword (including but not limited to
+                        true/false/null).
+
+                                                *aj*
+aj                      Text object for outermost JSON object or array.
+
+                                                *gqij*
+gqij                    Replace the innermost JSON with a pretty printed
+                        version.
+
+                                                *gqaj*
+gqaj                    Replace the outermost JSON with a pretty printed
+                        version.
+
+                                                *gwij*
+["x]gwij                Merge the JSON from the register into the innermost
+                        JSON.  Merging extends objects, concatenates strings
+                        and arrays, and adds numbers.
+
+                                                *gwaj*
+["x]gwaj                Merge the JSON from the register into the outermost
+                        JSON.
+
+Pretty printing indents based on 'shiftwidth' and wraps at 'textwidth'.
+
+ vim:tw=78:et:ft=help:norl:

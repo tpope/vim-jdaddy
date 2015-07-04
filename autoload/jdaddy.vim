@@ -202,7 +202,10 @@ function! jdaddy#reformat(func, count, ...) abort
   if lopen == lclose
     let body = getline(lopen)[copen-1 : cclose-1]
   else
-    let body = getline(lopen)[copen-1 : -1] . join(getline(lopen+1, lclose-1), "\n") . getline(lclose)[0 : cclose-1]
+    let body = getline(lopen)[copen-1 : -1] . "\n" . join(map(getline(lopen+1, lclose-1), 'v:val."\n"'), '') . getline(lclose)[0 : cclose-1]
+  endif
+  if &filetype ==# 'vim'
+    let body = substitute(body, "\n\\s*\\\\", "\n", "g")
   endif
   try
     if a:0
@@ -214,10 +217,17 @@ function! jdaddy#reformat(func, count, ...) abort
     return 'echoerr '.string(v:exception)
   endtry
   let level = indent(lopen)/&sw
+  if &filetype ==# 'vim' && getline(lopen) =~# '^\s*\\'
+    let level = len(matchstr(getline(lopen), '\\\zs\s*'))/&sw
+  endif
   let dump =
         \ (copen == 1 ? '' : getline(lopen)[0 : copen-2]) .
         \ jdaddy#dump(json, {'width': (&tw ? &tw : 79), 'indent': &sw, 'level': level, 'before': copen-1-level}) .
         \ getline(lclose)[cclose : -1]
+  if &filetype ==# 'vim' && getline(lclose) =~# '^\s*\\'
+    let pre = matchstr(getline(lclose), '^\s*')
+    let dump = substitute(dump, "\n", "\n" . pre . '\\', 'g')
+  endif
   call append(lclose, split(dump, "\n"))
   silent exe lopen.','.lclose.'delete _'
   call setpos('.', [0, lopen, copen, 0])

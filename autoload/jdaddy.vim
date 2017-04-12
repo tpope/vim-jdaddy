@@ -7,9 +7,9 @@ endif
 let g:autoloaded_jdaddy = 1
 
 if !exists('g:jdaddy#null')
-  let g:jdaddy#null = ['null']
-  let g:jdaddy#false = ['false']
-  let g:jdaddy#true = ['true']
+  let g:jdaddy#null = get(v:, 'null', ['null'])
+  let g:jdaddy#false = get(v:, 'false', ['false'])
+  let g:jdaddy#true = get(v:, 'true', ['true'])
 endif
 
 function! s:sub(str,pat,rep) abort

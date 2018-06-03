@@ -16,4 +16,6 @@ nnoremap <silent> gqaj :exe jdaddy#reformat('jdaddy#outer_pos', v:count1)<CR>
 nnoremap <silent> gwij :exe jdaddy#reformat('jdaddy#inner_pos', v:count1, v:register)<CR>
 nnoremap <silent> gwaj :exe jdaddy#reformat('jdaddy#outer_pos', v:count1, v:register)<CR>
 
+nnoremap <silent> gsj :exe jdaddy#stringify('jdaddy#outer_pos', v:count1)<CR>
+
 " vim:set et sw=2:

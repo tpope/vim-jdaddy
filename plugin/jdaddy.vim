@@ -1,7 +1,7 @@
 " plugin/jdaddy.vim
 " Author: Tim Pope <http://tpo.pe/>
 
-if exists("g:loaded_jdaddy") || v:version < 700 || &cp
+if exists("g:loaded_jdaddy") || v:version < 800 || &cp
   finish
 endif
 let g:loaded_jdaddy = 1

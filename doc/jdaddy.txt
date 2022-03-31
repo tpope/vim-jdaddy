@@ -31,6 +31,10 @@ gqaj                    Replace the outermost JSON with a pretty printed
 ["x]gwaj                Merge the JSON from the register into the outermost
                         JSON.
 
+                                                *gsj*
+gsj                     Convert the JSON into a string. 
+
+
 Pretty printing indents based on 'shiftwidth' and wraps at 'textwidth'.
 
  vim:tw=78:et:ft=help:norl:

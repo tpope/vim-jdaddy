@@ -253,4 +253,37 @@ function! jdaddy#combine(one, two) abort
   endif
 endfunction
 
+function! jdaddy#stringify(func, count) abort
+  let [lopen, copen, lclose, cclose] = call(a:func, [a:count])
+  if !lopen
+    return ''
+  endif
+  if lopen == lclose
+    let body = getline(lopen)[copen-1 : cclose-1]
+  else
+    let body = getline(lopen)[copen-1 : -1] . "\n" . join(map(getline(lopen+1, lclose-1), 'v:val."\n"'), '') . getline(lclose)[0 : cclose-1]
+  endif
+  if &filetype ==# 'vim'
+    let body = substitute(body, "\n\\s*\\\\", "\n", "g")
+  endif
+  try
+    if a:0
+      let json = jdaddy#combine(jdaddy#parse(body), jdaddy#parse(getreg(a:1)))
+    else
+      let json = jdaddy#parse(body)
+    endif
+  catch /^jdaddy:/
+    return 'echoerr '.string(v:exception)
+  endtry
+  let dump =
+    \ (copen == 1 ? '' : getline(lopen)[0 : copen-2]) .
+    \ jdaddy#dump(json) .
+    \ getline(lclose)[cclose : -1]
+  let dump = substitute(dump, "\\(:\\|,\\)[[:space:]]", "\\1", "g")
+  call append(lclose, split(dump, "\n"))
+  silent exe lopen.','.lclose.'delete _'
+  call setpos('.', [0, lopen, copen, 0])
+  return ''
+endfunction
+
 " vim:set et sw=2:
